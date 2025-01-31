@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  medusa:
+    build: .
+    container_name: medusa-server
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://medusa:medusa@postgres:5432/medusa
+      MEDUSA_ADMIN_CORS: http://localhost:7000
+      MEDUSA_STORE_CORS: http://localhost:8000
+      PORT: 9000
+    ports:
+      - "9000:9000"
+      - "7000:7000"
+    volumes:
+      - medusa_data:/app/store
+
+  postgres:
+    image: postgres:16
+    container_name: medusa-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: medusa
+      POSTGRES_PASSWORD: medusa
+      POSTGRES_DB: medusa
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  medusa_data:
+  pg_data:
