@@ -14,7 +14,7 @@ RUN npx create-medusa-app@latest store --db-url "postgres://medusa:medusa@89.168
 WORKDIR /app/store
 
 # Install dependencies
-RUN npm install
+#RUN npm install
 
 # Expose Medusa's default port
 EXPOSE 9000
